@@ -1,0 +1,5 @@
+faiss-gpu==1.7.2
+tiktoken==0.4.0
+openai==0.27.9
+langchain==0.0.276
+python-dotenv==1.0.0

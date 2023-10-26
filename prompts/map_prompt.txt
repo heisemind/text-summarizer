@@ -1,0 +1,3 @@
+Write a summary of the following:
+"{text}"
+SUMMARY:

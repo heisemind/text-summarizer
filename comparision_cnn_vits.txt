@@ -1,0 +1,205 @@
+# SOURCE https://medium.com/@iliaspapastratis/comparison-of-convolutional-neural-networks-and-vision-transformers-vits-a8fc5486c5be
+
+Introduction
+Visual recognition systems have undergone a significant transformation over the past decade. In the early years of computer vision, researchers relied on hand-crafted features and machine learning algorithms to detect and classify objects within images. However, this approach was limited by the quality of the features and the expertise of the practitioners. The advent of deep learning and Convolutional Neural Networks (CNNs) in the 2010s revolutionized the field, propelling computer vision tasks to new heights and enabling more accurate and efficient object recognition.
+
+CNNs have been the de facto standard for visual recognition tasks for the better part of a decade. Their hierarchical structure, comprising convolutional, pooling, and fully connected layers, allows them to learn complex representations of visual data, achieving state-of-the-art performance on a wide range of tasks. Yet, recent developments in the world of deep learning have introduced a new contender in the realm of computer vision: the Vision Transformer (ViT).
+
+Originally designed for natural language processing tasks, Transformer architectures have proven their versatility and effectiveness across multiple domains. In 2020, researchers adapted the Transformer model for image recognition tasks, and the Vision Transformer was born. By dividing images into non-overlapping patches, encoding positional information, and using self-attention mechanisms, ViTs quickly demonstrated the potential to surpass CNNs in terms of accuracy and efficiency.
+
+As ViTs continue to gain traction, a pressing question arises: Will Vision Transformers replace CNNs as the go-to architecture for computer vision applications? In this article, we will explore the workings of both CNNs and ViTs, delve into their strengths and weaknesses, and provide a comprehensive comparison to determine their respective roles in the future of computer vision.
+
+Convolutional Neural Networks (CNNs)
+Convolutional Neural Networks (CNNs) are a class of deep learning models specifically designed to process and analyze grid-like data, such as images. Inspired by the human visual system, CNNs have become the cornerstone of computer vision tasks due to their ability to automatically learn meaningful features from raw pixel data. The architecture of a typical CNN consists of three main types of layers: convolutional layers, pooling layers, and fully connected layers. These layers are stacked in various configurations to create deep and complex networks capable of learning hierarchical representations of visual data.
+
+Convolutional Layers: These layers perform the convolution operation, which involves sliding a set of learnable filters (or kernels) across the input image. The filters are used to extract local features from the input, such as edges, textures, and shapes. As the filters convolve over the image, they produce a feature map that represents the presence of the learned features at different spatial locations.
+Pooling Layers: These layers reduce the spatial dimensions of the feature maps, thus decreasing the amount of computation required and the risk of overfitting. Pooling layers, such as max pooling or average pooling, apply a downsampling operation that retains only the most important information from the input feature map.
+Fully Connected Layers: These layers, typically found towards the end of a CNN, are used to generate the final output, such as class probabilities for an image classification task. Fully connected layers process the high-level features extracted by the convolutional and pooling layers and map them to the desired output space.
+Some popular CNN architectures that have had a significant impact on the field of computer vision include:
+
+LeNet-5: Developed by Yann LeCun and his colleagues in the 1990s, LeNet-5 is one of the earliest CNNs. It was initially designed for handwritten digit recognition and laid the foundation for future CNN architectures.
+
+AlexNet: Proposed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton in 2012, AlexNet achieved a breakthrough in the ImageNet Large Scale Visual Recognition Challenge (ILSVRC), dramatically outperforming traditional methods. It popularized the use of deeper and larger CNNs for image recognition tasks.
+
+VGG: Developed by the Visual Geometry Group at the University of Oxford in 2014, VGG demonstrated the benefits of using deeper networks with small (3x3) convolutional filters. Its simple and modular architecture made it a popular choice for transfer learning and fine-tuning in various applications.
+
+ResNet: Introduced by Kaiming He and his colleagues in 2015, ResNet addressed the issue of vanishing gradients in deep networks through the use of skip connections, allowing the network to learn residual functions. ResNet’s architecture enabled the training of much deeper networks, significantly improving performance on various computer vision benchmarks.
+
+DenseNet: Proposed by Gao Huang and his team in 2016, DenseNet introduced dense connections between layers, which alleviated the vanishing gradient problem and encouraged feature reuse. This led to more compact and efficient models compared to traditional CNNs.
+
+These architectures, along with many others, have shaped the landscape of computer vision research and applications. They have demonstrated the power and versatility of CNNs, paving the way for new advancements in the field.
+
+Drawbacks of CNNs
+While Convolutional Neural Networks (CNNs) have proven to be highly effective in various computer vision tasks, they are not without their limitations. Some of the main drawbacks of CNNs include:
+
+Requirement for Large Amounts of Labeled Data: CNNs typically rely on large, labeled datasets for training. The process of labeling and annotating image data can be time-consuming and expensive, making it a significant bottleneck in the development of new models. This also limits the applicability of CNNs in situations where labeled data is scarce or difficult to obtain.
+
+Computational Complexity: The deep and complex architectures of CNNs require substantial computational resources for both training and inference. This can pose challenges for deploying CNNs on resource-constrained devices, such as mobile phones and embedded systems, and may also increase the carbon footprint associated with training and running large-scale CNN models.
+
+Difficulties in Scaling up to High-Resolution Images: CNNs tend to struggle with scaling up to high-resolution images due to the increased memory and computational requirements associated with large input sizes. This has led to the development of various techniques to address this issue, such as using dilated convolutions or downsampling the input image. However, these approaches may compromise the model’s ability to capture fine-grained details in high-resolution images.
+
+Lack of Native Support for Variable-Sized Inputs: Traditional CNNs are designed to handle fixed-size input images, requiring input images to be resized or padded to match the network’s input dimensions. This can lead to distortion, loss of information, or the introduction of artifacts, potentially affecting the model’s performance. While some workarounds, such as fully convolutional networks (FCNs) or adaptive pooling layers, have been proposed to handle variable-sized inputs, native support for variable-sized inputs is not a standard feature in CNN architectures.
+
+These limitations highlight some of the challenges associated with using CNNs in computer vision tasks and motivate the exploration of alternative architectures, such as Vision Transformers, which may offer improved performance and versatility in addressing these challenges.
+
+Vision Transformers (ViTs)
+Vision Transformers (ViTs) have emerged as a promising alternative to Convolutional Neural Networks (CNNs) for computer vision tasks. Initially designed for natural language processing, the Transformer architecture has demonstrated its versatility and effectiveness across various domains, including image recognition.
+
+General Concept of Vision Transformers: ViTs adapt the original Transformer architecture, which was initially proposed for sequence-to-sequence tasks in natural language processing, to handle images as input. Instead of processing images using convolutional operations, ViTs treat images as sequences of non-overlapping patches, converting each patch into a flat vector and applying positional encoding to retain spatial information. The resulting sequence of vectors is then fed into the Transformer layers, which utilize self-attention mechanisms to model long-range dependencies and learn meaningful visual features.
+
+How ViTs Work:
+Image Patching: The input image is divided into non-overlapping patches, typically of equal size, such as 16x16 or 32x32 pixels. Each patch is then reshaped into a 1D vector.
+
+Embedding: The reshaped patch vectors are linearly embedded into the desired dimensional space using a learnable embedding matrix.
+
+Positional Encoding: Positional embeddings are added to the patch embeddings to incorporate spatial information, ensuring that the Transformer model can distinguish between the different patch positions within the image.
+
+Transformer Layers: The combined patch and positional embeddings are passed through multiple Transformer layers, which consist of multi-head self-attention mechanisms and feed-forward neural networks, allowing the model to learn complex interactions between the patches.
+
+Output: The final output of the Transformer layers is processed by a classification head, typically a fully connected layer with a softmax activation, to generate the desired predictions, such as class probabilities for image classification tasks.
+
+Popular ViT Architectures: Several ViT architectures have been proposed, with varying model sizes and configurations, to cater to different requirements and trade-offs between accuracy and computational efficiency. Some popular ViT architectures include:
+
+ViT-B: A base-sized ViT architecture with a moderate number of Transformer layers and attention heads, providing a good balance between performance and computational complexity.
+
+ViT-L: A large-sized ViT architecture with more Transformer layers and attention heads than ViT-B, offering improved performance at the cost of increased computational requirements.
+
+DeiT: Data-efficient Image Transformers (DeiT) are a family of ViTs designed to reduce the reliance on large-scale labeled data by incorporating techniques such as distillation and mixup during training, resulting in more data-efficient and generalizable models.
+
+ViTs have demonstrated their potential to outperform traditional CNNs on a variety of computer vision tasks, offering a new paradigm for visual recognition that leverages the strengths of the Transformer architecture.
+
+Comparison of CNNs and ViTs
+Internal Representation of CNNs and ViTs
+In this section, we explore the internal workings of CNNs and ViTs by examining how they process images and compute their internal representations. Understanding the distinctions in their internal representations can provide insights into how each architecture captures and processes visual information.
+
+Analyzing Internal Representations: Investigating the (hidden) layer representations in CNNs and ViTs is difficult due to the diverse nature of the properties spread across a large number of neurons. The Center Kernel Alignment (CKA) method, which has been used enables a meaningful comparison of representations across these networks by evaluating similarity between the internal representations of different layers.
+
+
+Representation Structures: ViTs and CNNs, such as ResNet models, have distinct representation structures. ViTs maintain a relatively consistent layer similarity structure, with a visible grid-like layout and strong similarity between lower and upper layers. In contrast, ResNet models exhibit separate phases in similarity structure, with lower and higher layers having lower similarity scores.
+
+Comparing ViT and ResNet Layers: A CKA heatmap comparing all ViT layers to all ResNet layers reveals that the lower half of ResNet layers corresponds to the bottom quarter of ViT layers. The second half of the ResNet is approximately equivalent to the following third of ViT layers, with the top ViT layers differing from both the lower and higher ResNet layers.
+
+Attention in ViT Layers: The attention mechanism in ViTs varies across layers. Lower layers attend to both local and global information, while higher layers predominantly focus on global information. By analyzing the attention head mean distances for the two lowest and two highest layers in the ViT, it becomes evident that lower layers attend to a mix of local and global information, whereas higher layers attend solely to global information.
+
+ViT’s Local Attention Heads and ResNet Layers: By comparing subsets of ViT attention heads (ranging from the most locally attending heads to the most globally attending heads) to the lowest layer representations in ResNet using CKA similarity, it becomes clear that lower ResNet layers are most similar to the features learned by ViT’s local attention heads. As more global information is incorporated, the similarity decreases monotonically, indicating that global heads learn qualitatively distinct features.
+
+These analyses emphasize the differences in how CNNs and ViTs process and represent visual information, which contribute to their unique strengths and weaknesses in various computer vision tasks. By understanding these differences, researchers can make better-informed choices when selecting architectures for specific applications and continue to develop techniques that leverage the strengths of each architecture for improved performance.
+
+ConvNets vs. Transformers: Transferability of Visual Representations
+A recent study by Zhou et al., published at the International Conference on Computer Vision (ICCV) 2021 Workshop, titled “ConvNets vs. Transformers: Whose Visual Representations Are More Transferable?” provides valuable insights into the transferability of visual representations learned by Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). The study compares the performance of these architectures across various computer vision tasks when fine-tuned on limited amounts of labeled training data. the authors conducted 15 single-task and multi-task performance evaluations. They found that in 13 out of these 15 tasks, Vision Transformers (ViTs) were superior. This included various tasks like fine-grained classification, scene recognition (including classification, segmentation, and depth estimation), open-domain classification, face recognition, and others.
+
+
+What is Transfer Learning?
+Transfer learning is a technique in machine learning where a model developed for one task is reused, or “transferred,” to a second related task. This approach is particularly effective when the initial task and the new task share common visual data.
+
+Fine-Grained Classification and Scene Recognition
+The study found that Vision Transformers outperformed ConvNets in most cases. In the realm of fine-grained classification, which involves distinguishing between highly similar classes, ViTs demonstrated a stronger ability to capture subtle differences. This was observed on the Flower102 and CUB200 datasets, containing images of flowers and birds respectively.
+
+The scene recognition task, which involves understanding the relationship between objects within an image, also saw ViTs outperforming ConvNets. The researchers noted that ViTs demonstrated a superior ability to comprehend complex scenarios, which is vital in scene recognition.
+
+Open-Domain Classification and Face Recognition
+The paper further noted the advantage of Vision Transformers in open-domain classification tasks, which involve classifying images from a wide variety of categories. Here, the three ViTs models tested occupied the top three places on both WikiArt and COVID-19 datasets. This finding provides evidence of the strong transferability of Transformer-based representations. Face recognition, a task that is not directly related to the ImageNet pre-training dataset, was used to test the transferability and generalization abilities of both architectures. Vision transformers again surpassed ConvNets, indicating their enhanced capability of tackling open-domain problems.
+
+Multi-Task Evaluations
+In multi-task evaluations, the study found that Vision Transformers effectively utilized complementary information hidden in two tasks, leading to better performance over ConvNets. This was observed in tasks like scene segmentation and depth estimation. Even when dealing with tasks from drastically different domains, such as art style and generic object recognition, the Transformer-based models exhibited a greater reduction in performance drop compared to ConvNets.
+
+it becomes clear that Vision Transformers provide more transferable visual representations compared to ConvNets. They consistently outperform ConvNets across a variety of tasks, and they also demonstrate a more robust performance in multi-task learning scenarios. In particular, the Swin Transformer model emerged as a top performer, indicating its potential for future applications in the field.
+
+However, it’s worth noting that the choice of architecture will depend on the specifics of the task at hand by taking into account the strengths and weaknesses of these architectures in different contexts.
+
+On the other hand, Lee et al., in “ViTGAN: Training GANs with Vision Transformers,” explores the potential of using Vision Transformers (ViTs) as generators and discriminators in Generative Adversarial Networks (GANs) for image synthesis tasks. The paper investigates the performance of ViTs in comparison to traditional convolutional architectures in the context of GANs.
+
+The key findings from the paper include:
+
+ViT-based GANs performs comparable with Convolutional GANs: The results indicate that ViTGAN, which utilizes ViTs as both generator and discriminator, has similar performance to traditional convolutional GANs, such as StyleGAN2, in terms of image synthesis quality.
+
+Improved Architectural Flexibility: ViTGAN offers enhanced architectural flexibility compared to convolutional GANs. The authors demonstrate that ViTGAN can be scaled by adjusting the number of transformer layers or the number of tokens without changing the spatial dimensions, making it easier to adapt the model to different computational budgets and problem sizes.
+
+Effective Transfer Learning: The study reveals that pre-trained ViT models can be successfully fine-tuned as generators in GANs, significantly reducing the training time while maintaining competitive performance. This finding emphasizes the potential of using pre-trained ViTs for transfer learning in image synthesis tasks.
+
+Robustness to Input Changes: ViTGAN exhibits robustness to changes in input distributions, as shown by experiments with corrupted and out-of-distribution samples. The authors argue that the attention mechanism in ViTs contributes to this robustness, enabling the model to effectively handle variations in input data.
+
+In conclusion, this research highlights the advantages of using Vision Transformers in Generative Adversarial Networks for image synthesis tasks. The findings demonstrate that ViT-based GANs outperform traditional convolutional GANs in terms of image quality, architectural flexibility, and transfer learning potential. These insights can guide researchers and practitioners in choosing appropriate architectures for image synthesis applications and further exploring the potential of Vision Transformers in this domain.
+
+Robustness of Vision Transformers and CNNs
+Recent studies have delved into the robustness of Vision Transformers (ViTs) and Convolutional Neural Networks (CNNs) to understand how these architectures respond to adversarial attacks, input distribution changes, and other challenging scenarios. In this section, we will compare the robustness of ViTs and CNNs using insights from a paper titled “Are Transformers More Robust Than CNNs?” The key findings from the paper regarding robustness are as follows:
+
+Adversarial Robustness: The authors find that ViTs are more robust to adversarial perturbations compared to CNNs. They conduct experiments with adversarial attacks on both architectures and observe that ViTs are less sensitive to small perturbations in the input space. This increased robustness can be attributed to the attention mechanism in ViTs, which allows them to focus on the most relevant parts of the input while ignoring irrelevant noise.
+
+
+
+Geometric Invariance: In contrast to CNNs, which are designed to be invariant to translations, ViTs are not inherently invariant to such geometric transformations. This is because the attention mechanism in ViTs considers global information, making the model more sensitive to positional changes. However, this sensitivity can be mitigated by incorporating data augmentation techniques during training to improve the model’s performance under geometric transformations.
+
+Sensitivity to Input Distribution Changes: Both ViTs and CNNs exhibit sensitivity to changes in input distributions, but ViTs have been shown to be more robust in certain scenarios.
+
+Robustness to Image Corruptions: ViTs show better robustness to common image corruptions and perturbations compared to CNNs. They attribute this robustness to the global receptive fields of ViTs, which enable them to capture long-range dependencies and contextual information. However, it is important to note that the performance of both architectures can be improved through appropriate training strategies, such as using robust loss functions or incorporating adversarial training.
+
+In summary, Vision Transformers exhibit greater robustness to adversarial perturbations and certain input distribution changes compared to Convolutional Neural Networks. However, they are less inherently invariant to geometric transformations, which can be mitigated through data augmentation techniques during training. These findings can help guide researchers and practitioners in selecting the most suitable architecture for specific computer vision tasks, keeping in mind the robustness requirements of their applications.
+
+The remarkable success of Transformer models in the field of visual recognition has prompted researchers to evaluate and compare their robustness with that of traditional Convolutional Neural Networks (CNNs). While previous studies have suggested that Transformers are more robust, the fairness of these comparisons has been questioned due to varying experimental conditions such as model scales, training datasets, and strategies.
+
+In a bid to establish a fair playing field, a recent study has provided a comprehensive comparison of Transformers and CNNs, focusing primarily on two aspects of robustness: adversarial robustness and robustness to out-of-distribution samples.
+
+Adversarial Robustness
+Adversarial examples, intentionally perturbed images designed to deceive machine learning models, pose a significant threat to the integrity of these models. In this study, the robustness against adversarial attacks was tested using several methods, including the popular Projected Gradient Descent (PGD) attack, AutoAttack, and Texture Patch Attack (TPA).
+
+Contrary to previous beliefs, the study found that CNNs could be as robust as Transformers in defending against adversarial attacks when they adopted Transformer’s training recipes. This observation challenges the notion that Transformers inherently outperform CNNs in terms of adversarial robustness.
+
+Robustness to Out-of-Distribution Samples
+
+Out-of-distribution samples refer to data that the model hasn’t seen during training. Testing a model’s performance on such samples is a good measure of its generalization ability. The researchers used three benchmarks for this purpose: ImageNet-A, ImageNet-C, and Stylized-ImageNet.
+
+Interestingly, the study found that pre-training Transformers on large-scale datasets isn’t a fundamental requirement for them to outperform CNNs in terms of generalization. Instead, the self-attention-like architectures of Transformers largely contribute to their superior generalization ability.
+
+Internal Representation of CNNs and ViTs
+To better understand the differences between Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs), it is essential to examine their internal representations. A recent paper by Kornblith et al. (2021), titled “When Vision Transformers Outperform ResNets without Pretraining or Strong Data Augmentation,” provides valuable insights into the internal representation differences between CNNs and ViTs. The key findings from the paper regarding internal representations are described as follows:
+
+Layer Similarity Structure: ViTs exhibit a consistent layer similarity structure, characterized by a grid-like layout and strong similarity between lower and upper layers. In contrast, ResNets (a popular type of CNN) display distinct phases in similarity structure, with lower and higher layers having lower similarity scores. This difference in layer similarity structure suggests that ViTs and CNNs process information and learn representations in fundamentally different ways.
+
+Global and Local Attention: The study shows that lower ViT layers attend both locally and globally, while higher layers predominantly focus on global information. This is in contrast to the hierarchical representations learned by CNNs, where lower layers typically capture local features and higher layers capture more abstract, global features. This difference in attention distribution may contribute to the unique representation properties observed in ViTs.
+
+Comparison of ViT and ResNet Layers: The authors create a heatmap comparing all ViT layers to all ResNet layers using Center Kernel Alignment (CKA) similarity. The results indicate that the lower half of ResNet layers resembles the bottom quarter of ViT layers, while the second half of the ResNet is roughly equivalent to the following third of ViT layers. The top ViT layers differ significantly from both lower and higher ResNet layers, further highlighting the distinction in internal representations between the two architectures.
+
+Similarity between Local Attention Heads and Lower ResNet Layers: The study reveals that lower ResNet layers are most similar to the features learned by ViT’s local attention heads. When more global information is integrated, the similarity decreases monotonically, suggesting that global attention heads in ViTs learn quantitatively distinct features compared to CNNs.
+
+In conclusion, the internal representation differences between CNNs and ViTs shed light on the contrasting ways these architectures process and learn from input images. While CNNs rely on hierarchical representations with distinct layer similarity structures, ViTs exhibit more consistent layer similarity and a combination of local and global attention across layers. Understanding these differences can help researchers and practitioners make informed decisions when selecting the most appropriate architecture for their computer vision tasks, taking into account the unique representation properties of each model.
+
+Performance Comparison: CNNs and ViTs
+
+When selecting the most appropriate architecture for computer vision tasks, it is crucial to compare the performance of Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs) in terms of classification accuracy and speed. In this section, we will discuss the performance differences between these two architectures.
+
+Classification Accuracy: Over the years, both CNNs and ViTs have achieved remarkable performance in image classification tasks. Initially, CNNs like AlexNet, VGG, ResNet, and DenseNet dominated the field by setting new benchmarks in terms of classification accuracy. However, with the introduction of ViTs, researchers have observed comparable or even superior performance in certain cases. ViTs have demonstrated state-of-the-art results on various image classification benchmarks, such as ImageNet, often outperforming their CNN counterparts. This improved accuracy can be attributed to the attention mechanism in ViTs, which allows them to capture long-range dependencies and contextual information more effectively.
+
+Computational Efficiency: CNNs have traditionally been known for their computational efficiency, particularly when compared to early deep learning models. However, ViTs have been shown to be competitive in this regard as well. While ViTs may require more computation during the initial stages of training, they often converge faster and require fewer epochs to achieve similar or better performance compared to CNNs. Furthermore, ViTs offer more architectural flexibility, making it easier to adapt the model to different computational budgets and problem sizes by adjusting the number of transformer layers or tokens.
+
+Inference Speed: In terms of inference speed, both architectures have their advantages and disadvantages. CNNs generally have a faster inference speed for smaller input sizes, whereas ViTs can process larger input images more efficiently due to their ability to attend to global information directly. However, the specific speed of each architecture can vary depending on factors such as hardware, implementation, and model size. Therefore, it is essential to consider the specific requirements of the application when comparing inference speeds.
+
+In summary, both CNNs and ViTs exhibit strong performance in terms of classification accuracy and speed. While ViTs have shown promising results and in some cases outperform CNNs, it is important to recognize that each architecture has its strengths and weaknesses. Ultimately, the choice between CNNs and ViTs depends on the specific requirements of the application, including the desired classification accuracy, computational efficiency, and inference speed.
+
+Conclusion
+Throughout this article, we have examined the key differences between Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs) in terms of their architecture, internal representations, robustness, and performance. The comparison highlights the unique strengths and weaknesses of both approaches, with ViTs emerging as a promising alternative to CNNs in various computer vision applications.
+
+ViTs have demonstrated superior performance in classification accuracy and robustness to adversarial perturbations in certain scenarios. They also exhibit distinct internal representation structures, characterized by consistent layer similarity and a combination of local and global attention across layers. However, ViTs are less inherently invariant to geometric transformations and may require data augmentation techniques during training to address this limitation.
+
+On the other hand, CNNs have been the backbone of computer vision tasks for years, offering computational efficiency and faster inference speeds for smaller input sizes. Their hierarchical representations and distinct layer similarity structures contribute to their robust performance in various tasks. Yet, CNNs face challenges in terms of scaling up to high-resolution images and require large amounts of labeled data for training.
+
+In conclusion, the choice between CNNs and ViTs depends on the specific requirements of the application and the desired trade-offs between classification accuracy, robustness, and computational efficiency. Researchers and practitioners should carefully consider the unique properties of each architecture and adapt their models accordingly to achieve the best possible performance for their computer vision tasks. While the recent advancements in ViTs have shown great potential, it is important to recognize that both CNNs and ViTs will continue to play vital roles in the development of computer vision applications in the foreseeable future.
+
+References
+[1] Raghu, M., Unterthiner, T., Kornblith, S., Zhang, C., & Dosovitskiy, A. (2021). Do vision transformers see like convolutional neural networks?. Advances in Neural Information Processing Systems, 34, 12116–12128.
+
+[2] https://blog.research.google/2020/12/transformers-for-image-recognition-at.html
+
+[3]https://becominghuman.ai/transformers-in-vision-e2e87b739feb
+
+[4]Bai, Y., Mei, J., Yuille, A. L., & Xie, C. (2021). Are transformers more robust than cnns?. Advances in neural information processing systems, 34, 26831–26843.
+
+[5]Park, N., & Kim, S. (2022). How do vision transformers work?. arXiv preprint arXiv:2202.06709.
+
+[6]Liu, Z., Mao, H., Wu, C. Y., Feichtenhofer, C., Darrell, T., & Xie, S. (2022). A convnet for the 2020s. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (pp. 11976–11986).
+
+[7]Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., … & Houlsby, N. (2020). An image is worth 16x16 words: Transformers for image recognition at scale. arXiv preprint arXiv:2010.11929.
+
+[8] https://viso.ai/deep-learning/vision-transformer-vit/
+
+

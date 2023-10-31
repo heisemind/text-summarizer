@@ -48,4 +48,4 @@ This project is licensed under the MIT License.
 
 If you're interested in AI, check out my YouTube channel, [Heise Mind](https://www.youtube.com/@HeiseMind). I create deep-tech content about a variety of tech-related topics.
 
-You might find my video on "Summarizing Text into PDF Reports" particularly helpful: [Watch the Video](https://www.youtube.com/watch?v=vuj69j60_nc).
+You might find my video on "Report Generation with LaTeX and LLM" particularly helpful: [Watch the Video](https://youtu.be/bCLq7bITnvA).
